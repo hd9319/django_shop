@@ -1,3 +1,4 @@
+import logging
 import random
 from statistics import mean
 
@@ -7,9 +8,17 @@ from django.shortcuts import render, redirect
 
 from .models import Product, Review, Rating, Category
 from .helpers.stars import get_ratings_context
+from .helpers.request_parser import parse_request
+
+# https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest.META
+logger = logging.getLogger(__name__)
+request_logger = logging.getLogger('django.request')
 
 class HomeView(View):
 	def get(self, request):
+		message = parse_request(request)
+		request_logger.debug(message)
+
 		categories = Category.objects.order_by('name').all().values_list('name')[:10]
 		categories = [category[0] for category in categories]
 
@@ -27,13 +36,15 @@ class HomeView(View):
 
 		return render(request, 'index.html', context)
 
-
 class RedirectView(View):
 	def get(self, request):
 		return redirect('shop/')
 
 class ProductView(View):
 	def get(self, request, **kwargs):
+		message = parse_request(request)
+		request_logger.debug(message)
+
 		id_collection = Product.objects.values_list('id')
 		pid = kwargs['pid']
 		product = Product.objects.get(pk=pid)

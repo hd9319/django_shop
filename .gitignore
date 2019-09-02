@@ -109,3 +109,10 @@ settings.py
 # images
 *.jpg
 *.DS_Store
+
+# migrations
+migrations/
+
+# logs
+logs/
+*.log*
