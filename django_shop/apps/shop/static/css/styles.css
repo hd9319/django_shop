@@ -1,0 +1,15 @@
+body {
+      padding-top: 56px;
+    }
+
+.img-fluid {
+  height: 300px;
+  width: 900px;
+  object-fit: contain;
+}
+
+.card-img-top {
+  height: 250px;
+  width: 250px;
+  object-fit: contain;
+}
